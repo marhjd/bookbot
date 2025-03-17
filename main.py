@@ -1,5 +1,11 @@
+from stats import count_words, count_characters
+import sys
+
 def main():
-    path = "books/frankenstein.txt"
+    if len(sys.argv) < 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    path = sys.argv[1]
 
     report = print_report(path)
     print(report)
@@ -8,20 +14,6 @@ def get_text(path):
     with open(path, "r") as f:
         file_contents = f.read()
         return file_contents
-
-def count_words(text):
-    words = text.split()
-    return len(words)
-
-def count_characters(text):
-    count = {}
-    for c in text:
-        lowered = c.lower()
-        if lowered in count:
-            count[lowered] += 1
-        else:
-            count[lowered] = 1
-    return count
 
 def print_report(book_path):
     text = get_text(book_path)
@@ -33,7 +25,7 @@ def print_report(book_path):
     charcount_summary = ""
     for char_tuple in charcount_sorted_desc:
         if char_tuple[0].isalpha():
-            charcount_summary += f"The '{char_tuple[0]}' character was found {char_tuple[1]} times\n"
+            charcount_summary += f"{char_tuple[0]}: {char_tuple[1]}\n"
 
     charcount_summary += "--- End report ---"
 
